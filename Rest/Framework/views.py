@@ -10,6 +10,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import generics
+
 # Create your views here.
 
 @api_view(['GET'])
@@ -76,3 +78,11 @@ class StudentAPI(APIView):
            print(e)
            return Response({'status':403,'message':"Invalid id!!"})
 
+class StudentGeneric(generics.ListAPIView, generics.CreateAPIView):
+    queryset = student.objects.all()
+    serializer_class = studentserial
+
+class GenericUpdate(generics.UpdateAPIView, generics.DestroyAPIView):
+    queryset = student.objects.all()
+    serializer_class = studentserial
+    lookup_field = 'id'
